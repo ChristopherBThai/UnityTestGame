@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour {
 	public float speed;
 	public float attackRange;
 	public float attackDelay;
+
 	private float attackTime;
+	private float blockTime;
 
 	void Start () {
 		//animator = GetComponent<Animator> ();
@@ -19,6 +21,20 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			animator.SetBool ("PlayerMove", false);
+			animator.SetBool ("PlayerBlock", true);
+			blockTime = .6f;
+		} else if (animator.GetBool ("PlayerBlock")) {
+			animator.SetBool ("PlayerBlock", false);
+			blockTime = .6f;
+		}
+		if (blockTime > 0||animator.GetBool("PlayerBlock")) {
+			blockTime -= Time.deltaTime;
+			return;
+		}
+
+
 		bool moving = false;
 		Vector3 vel = new Vector3 ();
 		if(animator.GetBool("PlayerAttack")){
@@ -44,14 +60,12 @@ public class PlayerMovement : MonoBehaviour {
 			if (attackTime <= 0)
 				attack ();
 		}
-		print (attackTime);
 
 		animator.SetBool ("PlayerMove",moving);
 		transform.Translate (vel);
 	}
 
 	void attack(){
-
 		foreach (GameObject o in es.getEnemies()) {
 			float diff = o.transform.position.x - transform.position.x;
 			if (!sr.flipX && diff > 0 && diff < attackRange) {
@@ -61,4 +75,9 @@ public class PlayerMovement : MonoBehaviour {
 			}
 		}
 	}
+
+	public bool isBlocking(){
+		return blockTime <= 0 && animator.GetBool ("PlayerBlock");
+	}
+	
 }
