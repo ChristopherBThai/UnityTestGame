@@ -120,6 +120,7 @@ MonoBehaviour:
   target: {fileID: 1333589086433686, guid: f431d5a6d1959964fbdc78e2b6cdfed5, type: 2}
   speed: 0.008
   attackRange: 0.55
+  attackDelay: 0.4
   health: 2
 --- !u!212 &212832051197443496
 SpriteRenderer:
