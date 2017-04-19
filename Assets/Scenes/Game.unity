@@ -144,7 +144,7 @@ MonoBehaviour:
   target: {fileID: 425551466}
   cam: {fileID: 463471504}
   spawnTime: 180
-  enemyCount: 10
+  enemyCount: 1
 --- !u!4 &38572981
 Transform:
   m_ObjectHideFlags: 0
@@ -576,6 +576,21 @@ Prefab:
         type: 2}
       propertyPath: attackDelay
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 212688483536214224, guid: f431d5a6d1959964fbdc78e2b6cdfed5,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212688483536214224, guid: f431d5a6d1959964fbdc78e2b6cdfed5,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212688483536214224, guid: f431d5a6d1959964fbdc78e2b6cdfed5,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f431d5a6d1959964fbdc78e2b6cdfed5, type: 2}

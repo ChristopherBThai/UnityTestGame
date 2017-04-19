@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-	public Animator animator;
 	public EnemySpawner es;
-	public SpriteRenderer sr;
-	public Rigidbody2D rb;
+
 	public float speed;
+
 	public float attackRange;
 	public float attackDelay;
 
+	public int health;
+
+	private Animator animator;
+	private SpriteRenderer sr;
+	private Rigidbody2D rb;
 	private float attackTime;
 	private float blockTime;
 
 	void Start () {
-		//animator = GetComponent<Animator> ();
-
+		animator = GetComponent<Animator> ();
+		sr = GetComponent<SpriteRenderer> ();
+		rb = GetComponent<Rigidbody2D> ();
 	}
 
 	// Update is called once per frame
@@ -78,6 +83,20 @@ public class PlayerMovement : MonoBehaviour {
 
 	public bool isBlocking(){
 		return blockTime <= 0 && animator.GetBool ("PlayerBlock");
+	}
+
+	public void hit(int dir){
+
+		if (isBlocking()) {
+
+		} else {
+			animator.SetTrigger ("PlayerHit");
+			if(dir<0)
+				rb.AddForce(new Vector2(rb.mass*100,rb.mass*80));
+			if(dir>0)
+				rb.AddForce(new Vector2(-rb.mass*100,rb.mass*80));
+		}
+
 	}
 	
 }
