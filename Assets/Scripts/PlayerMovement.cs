@@ -8,14 +8,12 @@ public class PlayerMovement : MonoBehaviour {
 	public float speed;
 
 	public float attackRange;
-	public float attackDelay;
 
 	public int health;
 
 	private Animator animator;
 	private SpriteRenderer sr;
 	private Rigidbody2D rb;
-	private float attackTime;
 	private float blockTime;
 
 	void Start () {
@@ -26,6 +24,12 @@ public class PlayerMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (checkBlock ())
+			return;
+		playerControls ();
+	}
+
+	bool checkBlock(){
 		if (Input.GetKey (KeyCode.LeftShift)) {
 			animator.SetBool ("PlayerMove", false);
 			animator.SetBool ("PlayerBlock", true);
@@ -36,10 +40,12 @@ public class PlayerMovement : MonoBehaviour {
 		}
 		if (blockTime > 0||animator.GetBool("PlayerBlock")) {
 			blockTime -= Time.deltaTime;
-			return;
+			return true;
 		}
+		return false;
+	}
 
-
+	void playerControls(){
 		bool moving = false;
 		Vector3 vel = new Vector3 ();
 		if(animator.GetBool("PlayerAttack")){
@@ -53,17 +59,13 @@ public class PlayerMovement : MonoBehaviour {
 			vel.x = -speed;
 		}
 
-		if (Input.GetKey (KeyCode.E)&&!animator.GetBool("PlayerAttack")) {
+		if (animator.GetCurrentAnimatorStateInfo (0).IsName ("PlayerAttack")) {
+			moving = false;
+			vel.x = 0;
+		}else if (Input.GetKey (KeyCode.E)) {
 			moving = false;
 			animator.SetTrigger ("PlayerAttack");
-			attackTime = attackDelay;
 			vel.x = 0;
-		}
-
-		if (attackTime > 0) {
-			attackTime -= Time.deltaTime;
-			if (attackTime <= 0)
-				attack ();
 		}
 
 		animator.SetBool ("PlayerMove",moving);
@@ -86,7 +88,6 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public void hit(int dir){
-
 		if (isBlocking()) {
 
 		} else {
